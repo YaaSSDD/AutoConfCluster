@@ -1,0 +1,9 @@
+---
+# tasks file for Docker
+
+# Install Docker
+- include: docker-install.yml
+
+
+# Add Docker group
+- include: docker-group.yml

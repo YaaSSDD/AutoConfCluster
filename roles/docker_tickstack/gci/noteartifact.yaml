@@ -1,0 +1,20 @@
+--- 
+artifacts: 
+  paths: 
+    - node_modules/
+cache: 
+  paths: 
+    - node_modules/
+image: "172.16.226.10:5000/node:v1"
+install_dependencies: 
+  script: 
+    - "npm install"
+  stage: build
+stages: 
+  - build
+  - test
+testing_testing: 
+  script: "npm test"
+  stage: test
+
+

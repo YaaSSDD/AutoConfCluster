@@ -1,0 +1,4 @@
+---
+# Docker-swarm
+- name: "Init swarm manager"
+  include: "swarm-init-manager.yml"

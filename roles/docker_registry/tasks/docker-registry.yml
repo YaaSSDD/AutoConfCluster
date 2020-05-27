@@ -1,0 +1,224 @@
+---
+
+###########################################################################################
+##########################TLS part
+###########################################################################################
+# tasks file for docker_registry
+
+
+#- name: cluster | manager | Create dir for TLS cert
+#  command: >
+#         chdir=/etc/ssl/ mkdir crt
+#  become: true
+#  delegate_to: "{{ docker_swarm_addr }}"
+#  ignore_errors: true
+
+
+#- name: cluster | manager | Create TLS cert
+#  command: >
+#         openssl req -newkey rsa:2048 -nodes -sha256 \
+#         -keyout /etc/ssl/crt/ansible.com.crt -x509 -days 365 \
+#         -out /etc/ssl/crt/ansible.com.crt
+#  become: true
+#  delegate_to: "{{ docker_swarm_addr }}"
+#  ignore_errors: true
+  
+
+#iptables -A INPUT -p tcp -m tcp --dport 5000 -j ACCEPT
+
+
+#- name: cluster | manager | Create private registry
+#  command: >
+#         openssl req -newkey rsa:4096 -nodes -sha256 \
+#         -keyout registry.key -x509 -days 365 \
+#         -out registry.crt \
+# delegate_to: "{{ docker_swarm_addr }}"
+#  ignore_errors: true
+
+#- name: Generate a Self Signed OpenSSL certificate
+#  openssl_certificate:
+#    path: /etc/ssl/crt/ansible.com.crt
+#    privatekey_path: /etc/ssl/private/ansible.com.pem
+#    csr_path: /etc/ssl/crt/ansible.com.csr
+#   provider: selfsigned
+
+########################################################################################################
+
+- name: cluster | manager | Create file daemon
+  command: >
+         touch /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | Add insecure-registries manager
+  shell: >
+       echo "{\"insecure-registries\" : [\"localhost:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | Add insecure-registries worker 1
+  shell: >
+       echo "{\"insecure-registries\" : [\""{{ docker_swarm_addr }}":5000\"]}" | sudo tee -a /etc/docker/daemon.json
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_1 }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | Add insecure-registries worker 2
+  shell: >
+       echo "{\"insecure-registries\" : [\""{{ docker_swarm_addr }}":5000\"]}" | sudo tee -a /etc/docker/daemon.json
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_2 }}"
+  ignore_errors: true
+
+
+
+- name: cluster | worker | restart docker worker 1
+  shell: >
+       sudo service docker restart
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_1 }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | restart docker worker 2
+  shell: >
+       sudo service docker restart
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_2 }}"
+  ignore_errors: true
+
+
+
+
+- name: cluster | manager | add domain host to manager
+  command: >
+         echo "127.0.0.1   registry.me" | sudo tee -a /etc/hosts
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | add domain host to worker 1
+  command: >
+         echo "172.16.226.10  registry.me" | sudo tee -a /etc/hosts
+
+#echo "192.168.0.24   registry.me" | sudo tee -a /etc/hosts
+  become: true
+  delegate_to: "{{ addr_worker_1 }}"
+  ignore_errors: true
+
+
+
+- name: cluster | worker | add domain host to worker 1
+  command: >
+         echo "172.16.226.10  registry.me" | sudo tee -a /etc/hosts
+
+#echo "192.168.0.24   registry.me" | sudo tee -a /etc/hosts
+  become: true
+  delegate_to: "{{ addr_worker_2 }}"
+  ignore_errors: true
+
+
+
+- name: cluster | manager | Create private registry
+  command: >
+         docker run -d -p 5000:5000 --restart always --name registry registry:2
+        #-e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+
+- name: cluster | manager | pull images alpine
+  command: >
+         docker pull alpine
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Test tag images
+  command: >
+         docker tag alpine localhost:5000/alpine
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Test push images
+  command: >
+         docker push localhost:5000/alpine
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+
+- name: cluster | worker | restart docker worker 1
+  shell: >
+       sudo service docker restart
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_1 }}"
+  ignore_errors: true
+
+
+- name: cluster | worker | restart docker worker 1
+  shell: >
+       sudo service docker restart
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ addr_worker_2 }}"
+  ignore_errors: true
+
+
+
+- name: cluster | manager | restart docker manager
+  shell: >
+       sudo service docker restart
+
+#echo "{\"insecure-registries\" : [\"192.168.0.23:5000\"]}" | sudo tee -a /etc/docker/daemon.json
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+
+- name: cluster | manager | Test pull from registry images
+  command: >
+         docker pull localhost:5000/alpine
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | worker | Test pull from registry images
+  command: >
+         docker pull "{{ docker_swarm_addr }}":5000/alpine
+#"{{ docker_swarm_addr }}":5000/alpine
+  become: true
+  delegate_to: "{{ addr_worker_1 }}" 
+
+
+- name: cluster | worker | Test pull from registry images
+  command: >
+         docker pull "{{ docker_swarm_addr }}":5000/alpine
+#"{{ docker_swarm_addr }}":5000/alpine
+  become: true
+  delegate_to: "{{ addr_worker_2 }}" 
+
+
+#--insecure-registry=myip:5000
+#iptables -A INPUT -p tcp -m tcp --dport 5000 -j ACCEPT
+

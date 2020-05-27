@@ -1,0 +1,23 @@
+# tasks file for kibatic.traefik
+---
+
+
+- name: Create traefik systemd unit
+  shell: >
+       docker network create --driver=overlay traefik-net
+
+
+- name: Create traefik systemd unit
+  shell: >
+      docker service create \
+      --name traefik \
+      --constraint=node.role==manager \
+      --publish 4444:4444 \
+      --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
+      --network traefik-net \
+      traefik \
+      --docker \
+      --docker.swarmmode \
+      --docker.domain=traefik \
+      --docker.watch \
+      --web

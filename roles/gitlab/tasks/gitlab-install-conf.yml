@@ -1,0 +1,35 @@
+---
+
+- name: Install dependency Gitlab
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - openssh-server
+    - git
+    - postfix
+    - mailutils
+    - ca-certificates
+
+
+- name: Download package
+  shell: >
+        curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash
+  ignore_errors: true
+
+- name: Install gitlab-ce
+  apt: 
+    name={{ item }} state=latest update_cache=yes
+  with_items:
+    - gitlab-ce
+  ignore_errors: true
+
+- name: Copy gitlab.rb template
+  template:
+    src: gitlab.rb
+    dest: /etc/gitlab
+    mode: 0600
+#    group: root
+#    owner: root
+  register: file_conf_gitlab
+
+- name: Reconfigure Gitlab
+  shell: gitlab-ctl reconfigure

@@ -1,0 +1,13 @@
+---
+
+
+
+default:
+  image: node
+
+ninstall:
+  script: npm install
+
+ntest:
+  image: 172.16.226.10:5000/node:v1
+  script: npm test

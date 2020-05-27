@@ -1,0 +1,4 @@
+---
+# tasks file for gitlab
+
+- include: gitlab-install-conf.yml

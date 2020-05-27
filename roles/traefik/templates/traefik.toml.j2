@@ -1,0 +1,10 @@
+{#
+    Check traefik sample for full config options
+    https://raw.githubusercontent.com/containous/traefik/master/traefik.sample.toml
+#}
+logLevel = "INFO"
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "localhost"
+watch = true

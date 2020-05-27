@@ -1,0 +1,216 @@
+---
+
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+#       curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-386
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       sudo apt-get install gitlab-runner
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+  ignore_errors: true
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+  ignore_errors: true
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       sudo gitlab-runner start
+  ignore_errors: true
+
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       chmod +x /usr/local/bin/gitlab-runner
+
+- name: " ManagerGitlab | Install dependencies for gitlab-ci PIC"
+  shell: >
+       export DOCKEXE="docker"
+
+
+- name: Register runner to GitLab
+  command:  >
+    gitlab-runner register
+    --non-interactive
+    --url http://""{{ gitlab_url }}""
+    --registration-token ""{{ feed_token }}""
+    --description "runner node build"
+    --tag-list "build"
+    --executor "docker"
+    --docker-image "node:latest"
+  ignore_errors: true
+
+
+- name: Register runner to GitLab
+  command:  >
+      docker exec -d gitlab-runner gitlab-runner \
+         register -n \
+         --name "Docker Runner" \
+         --executor docker \
+         --docker-image node:latest \
+         --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+         --url http://""{{ gitlab_url }}"" \
+         --registration-token ""{{ feed_token }}"" \
+         --tag-list prod
+  ignore_errors: true
+
+
+
+
+
+#####
+### Monitoring tick stack docker
+#####
+
+
+- name: Register runner to GitLab
+  command:  >
+         mkdir /home/"{{ login }}/tick-stack"
+  ignore_errors: true
+
+
+- name: Copy docker compose
+  copy:
+    src: docker-compose.yml
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#  
+- name: Copy telegraf.conf
+  copy:
+    src: telegraf.conf
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#  
+
+- name: Copy Dockerfile
+  copy:
+    src: telegraf
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#    owner: root
+
+- name: Copy Dockerfile
+  copy:
+    src: chronograf
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#    owner: root
+
+- name: Copy Dockerfile
+  copy:
+    src: kapacitor
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#    owner: root
+
+- name: Copy Dockerfile
+  copy:
+    src: influxdb
+    dest: /home/{{ login }}/tick-stack/
+    mode: 0755
+#    group: root
+#    owner: root
+
+- name: cluster | manager | Build images Chronograf
+  command: >
+         docker build /home/"{{ login }}"/tick-stack/chronograf/. -t chronograf 
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Build images Kapacitor
+  command: >
+         docker build /home/"{{ login }}"/tick-stack/kapacitor/. -t kapacitor
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Build images InfluxDB
+  command: >
+         docker build /home/"{{ login }}"/tick-stack/influxdb/. -t influxdb 
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Build images Telegraf
+  command: >
+         docker build /home/"{{ login }}"/tick-stack/telegraf/. -t telegraf
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+
+
+- name: cluster | manager | Tag images Chronograf
+  command: >
+         docker tag alpine localhost:5000/chronograf
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Tag images Kapacitor
+  command: >
+         docker tag alpine localhost:5000/kapacitor
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Tag images InfluxDB
+  command: >
+         docker tag alpine localhost:5000/influxdb
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+
+- name: cluster | manager | Tag images Telegraf
+  command: >
+         docker tag alpine localhost:5000/telegraf
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Push images Chronograf
+  command: >
+         docker push localhost:5000/chronograf
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Push images Kapacitor
+  command: >
+         docker push localhost:5000/kapacitor
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Push images InfluxDB
+  command: >
+         docker push localhost:5000/influxdb
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Push images Telegraf
+  command: >
+         docker push localhost:5000/telegraf
+#localhost:5000/alpine@
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+- name: cluster | manager | Push images Telegraf
+  command: >
+         docker stack deploy up --compose-file /home/"{{ login }}"/tick-stack/docker-compose.yml
+#localhost:5000/alpine@docker 
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}" 
+
+
+

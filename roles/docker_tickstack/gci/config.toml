@@ -1,0 +1,16 @@
+[session_server]
+  listen_address = "0.0.0.0:80" #  listen on all available interfaces on port 8093
+  advertise_address = "172.16.226.10:80"
+  session_timeout = 1800
+
+[[runners]]
+  name = "build"
+  url = "http://172.16.226.10/"
+  token = "diGyT9fbFfF1T2cgxkeZ"
+  limit = 0
+  executor = "docker"
+  builds_dir = ""
+  shell = "npm install"
+  environment = ["ENV=value", "LC_ALL=en_US.UTF-8"]
+  clone_url = "http://gitlab-ci-token:s3cr3tt0k3n@172.16.226.10/root/hotelroom.git"
+

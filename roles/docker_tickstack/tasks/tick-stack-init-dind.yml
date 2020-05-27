@@ -1,0 +1,93 @@
+---
+# tasks file for docker_tickstack
+
+#- name: cluster | ManagerGitlab | Download gitlab-runner 
+#command: >
+#curl -LJO https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_<arch>.deb
+#become: true
+#delegate_to: "{{ docker_swarm_addr }}"
+#ignore_errors: true
+
+#- name: cluster | ManagerGitlab | Install gitlab-runner 
+#command: >
+#dpkg -i gitlab-runner_<arch>.deb#become: true
+#delegate_to: "{{ docker_swarm_addr }}"
+#ignore_errors: true
+#docker run -d \
+#--name gitlab-runner \
+#--restart always \
+#-v gitlab-runner:/etc/gitlab-runner \
+#-v /var/run/docker.sock:/var/run/docker.sock \
+#gitlab/gitlab-runner:latest
+
+#- name: cluster | ManagerGitlab | Add user gitlab-runner 
+#command: >
+#sudo chmod +x /usr/local/bin/gitlab-runner
+#sudo useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash
+#sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+#sudo gitlab-runner start
+#delegate_to: "{{ docker_swarm_addr }}"
+
+
+- name: cluster | ManagerGitlab | Run gitlab-runner container
+  command: >
+         docker run -d --name gitlab-runner --restart always \
+          -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          gitlab/gitlab-runner:latest
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+  ignore_errors: true
+
+- name: cluster | ManagerGitlab | Export var URL global in gitlab-runner bash 
+  shell: >
+         docker exec gitlab-runner export GITLAB_URL="{{ gitlab_url }}"
+ #docker exec -d gitlab-runner export GITLAB_URL="{{ gitlab_url }}"
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+ # ignore_errors: true
+
+- name: cluster | ManagerGitlab | Export var TOKEN global in gitlab-runner bash 
+  shell: >
+         docker exec gitlab-runner export GITLAB_TOKEN="{{ feed_token }}"
+
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+ # ignore_errors: true
+
+
+
+- name: cluster | ManagerGitlab | clone project 
+  shell: >
+          npm install mocha chai --save-dev
+          git clone "http://"{{ gitlab_url }}/"/root/hotelroom.git
+
+
+- name: cluster | ManagerGitlab | Init/push Gitlab-ci.yml in project
+  shell: >
+          echo "" | sudo tee -a /hotelroom/.gitlab-ci.yml
+
+
+
+
+
+
+
+
+
+- name: cluster | ManagerGitlab | exec bash in gitlab-runner
+  command: >
+      docker exec -d gitlab-runner gitlab-runner \
+         register -n \
+         --name "Docker Runner" \
+         --executor docker \
+         --docker-image node:latest \
+         --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+         --url http://"{{ gitlab_url }}" \
+         --registration-token "{{ feed_token }}" \
+         --tag-list prod
+#docker exec -it gitlab-runner bash
+  become: true
+  delegate_to: "{{ docker_swarm_addr }}"
+ # ignore_errors: true
+

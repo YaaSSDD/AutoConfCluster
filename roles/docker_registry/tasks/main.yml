@@ -1,0 +1,3 @@
+# Docker-swarm
+- name: "Docker local Registry"
+  include: "docker-registry.yml"

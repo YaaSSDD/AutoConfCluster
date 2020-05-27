@@ -1,0 +1,81 @@
+---
+# defaults file for Commun
+
+os: "{{ Debian }}"
+# Repository to be used for the installation of the Docker packages
+docker_repo: "{{ docker_repo_ce_stable }}"
+
+# Name of the package providing Docker
+docker_package_name: "docker-ce"
+#set your login
+login: ""
+# Version de Docker.
+# par default derniere version(latest)
+docker_package_version: ""
+#set your feed token gitlab
+feed_token: ""
+gitlab_url: 172.16.226.10
+docker_swarm_primary_manager: ""
+
+# IP Manager
+docker_swarm_manager_address: ""
+
+# IP Worker
+#addr_worker_1: 192.168.0.24
+addr_worker_1: 172.16.226.16
+addr_worker_2: 172.16.226.53
+
+# Token for join manager
+docker_swarm_manager_token: ""
+# Installation state of the Docker package.
+# Set it to 'latest' to upgrade Docker.
+docker_package_state: present
+
+# Extra packages that have to be installed together with Docker
+# e.g. linux-image-extra-virtual on some Debian systems
+docker_dependencies: "{{ default_docker_dependencies }}"
+
+# State of the Docker deamon service
+docker_service_state: "started"
+
+# Whether the Docker service should start on boot
+docker_service_enabled: "yes"
+file_conf_gitlab: ""
+# Docker Deamon configuration
+docker_daemon_config: {}
+docker_registry_domain: "registry.me"
+# Docker swarm network can be define in order to be sure that
+# swarm cluster doesn't overlap with you infrastructure
+# docker_swarm_network: 10.10.8.0/24
+
+# You can set any interface, that is listened by docker engine.
+# e.g. docker_swarm_interface: "eth1"
+docker_swarm_interface: "{{ ansible_default_ipv4['interface'] }}"
+docker_swarm_addr: "{{ hostvars[inventory_hostname]['ansible_' + docker_swarm_interface]['ipv4']['address'] }}"
+docker_swarm_port: 2377
+
+# Name of the Docker group
+docker_group_name: "docker"
+
+# List of the users in the Docker group
+docker_group_users:
+  - "{{ ansible_user | default(ansible_user_id) }}"  # if ansible_user is not defined, we default to the ansible ansible_user_id fact
+
+# Switches disabling the docker-engine, docker group and swarm-mode setup.
+skip_repo: false    # if true, skips the setup of the docker repository
+skip_engine: false  # if true, skips the docker engine installation
+skip_group: false   # if true, does not add the docker_admin_users to the docker_group_name
+skip_swarm: false   # if true, skips the swarm setup
+
+
+###traefik 
+# defaults file for kibatic.traefik
+traefik_install_dir: /usr/bin
+traefik_binary_url: https://github.com/containous/traefik/releases/download/v2.1.2/traefik_linux-amd64
+traefik_bin_path: "{{ traefik_install_dir }}/traefik"
+traefik_config_file: /etc/traefik.toml
+traefik_template: traefik.toml
+traefik_systemd_unit_template: traefik.service
+traefik_systemd_unit_dest: /etc/systemd/system/traefik.service
+traefik_update: no
+

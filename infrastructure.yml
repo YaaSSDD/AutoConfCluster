@@ -1,0 +1,36 @@
+---
+
+- name: install docker
+  hosts: manager
+  roles:
+    - docker
+
+- name: install docker
+  hosts: worker
+  roles:
+    - docker
+
+- name: initialize docker swarm
+  hosts: manager
+  roles:
+    - docker_swarm
+
+- name: initialize docker swarm
+  hosts: manager
+  roles:
+    - docker_registry
+
+- name: Gitlab install and serve NAT gitlab
+  hosts: manager
+  roles:
+    - gitlab
+
+- name: Gitlab-runner in docker Dind
+  hosts: manager
+  roles:
+    - docker_tickstack
+
+#- name: Traefik install in Cluster Docker swarm
+#  hosts: manager
+#  roles:
+#    - traefik

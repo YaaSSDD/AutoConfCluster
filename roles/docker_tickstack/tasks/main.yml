@@ -1,0 +1,4 @@
+---
+# Docker-swarm
+- name: "Init GitLab-CI JOB"
+  include: "tick-stack-init.yml"

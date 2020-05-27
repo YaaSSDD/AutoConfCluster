@@ -1,0 +1,60 @@
+---
+
+- name: Install Docker Dependencies
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - git
+    - wget
+    - gnupg2
+    - apt-transport-https
+    - ca-certificates 
+    - curl 
+    - software-properties-common 
+    - python3-pip 
+    - virtualenv
+    - python3-setuptools
+    - ntp
+    - python
+    - tcpdump
+    - wget
+    - openssl
+    - curl
+    - python-openssl
+    - python-pip
+    - python-docker
+
+  tags: docker
+  ignore_errors: true
+
+#skkrtskkrt
+- name: Get Docker key
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  tags: docker
+
+- name: DD add Docker packages to Repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_lsb.codename|lower }} stable
+  tags: docker
+
+- name: Install Docker-CE
+  apt: name={{ docker_package_name }} state=latest update_cache=yes
+  tags: docker
+  ignore_errors: true
+
+- name: Add this user in Docker group
+  command: >
+          sudo usermod -aG docker $USER
+  become: true
+
+- name: Open port for registry
+  command: >
+          iptables -A INPUT -p tcp -m tcp --dport 5000 -j ACCEPT
+  become: true
+
+- name: Open port for registry
+  command: >
+          pip install --upgrade docker-py
+  become: true
+

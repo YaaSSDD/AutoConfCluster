@@ -1,0 +1,5 @@
+FROM library/node
+
+MAINTAINER Shadowker <mhaia_y@etna-alternance.net>
+
+RUN npm install mocha chai --save-dev

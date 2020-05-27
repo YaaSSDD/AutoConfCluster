@@ -1,0 +1,1631 @@
+{
+	"meta": {
+		"chronografVersion": "1.7.16",
+		"sources": {
+			"1": {
+				"name": "Influxdb",
+				"link": "/chronograf/v1/sources/1"
+			},
+			"2": {
+				"name": "Influxdb",
+				"link": "/chronograf/v1/sources/2"
+			}
+		}
+	},
+	"dashboard": {
+		"id": 1,
+		"cells": [
+			{
+				"i": "8e6d041a-e536-43df-977b-db01543b171c",
+				"x": 0,
+				"y": 15,
+				"w": 9,
+				"h": 3,
+				"name": "write",
+				"queries": [
+					{
+						"query": "SELECT mean(\"pointReq\") AS \"mean_pointReq\", mean(\"pointReqLocal\") AS \"mean_pointReqLocal\", mean(\"req\") AS \"mean_req\", mean(\"subWriteDrop\") AS \"mean_subWriteDrop\", mean(\"subWriteOk\") AS \"mean_subWriteOk\", mean(\"writeDrop\") AS \"mean_writeDrop\", mean(\"writeError\") AS \"mean_writeError\", mean(\"writeOk\") AS \"mean_writeOk\", mean(\"writeTimeout\") AS \"mean_writeTimeout\" FROM \"_internal\".\"monitor\".\"write\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "write",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pointReq",
+									"args": [
+										{
+											"value": "pointReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pointReqLocal",
+									"args": [
+										{
+											"value": "pointReqLocal",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_req",
+									"args": [
+										{
+											"value": "req",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_subWriteDrop",
+									"args": [
+										{
+											"value": "subWriteDrop",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_subWriteOk",
+									"args": [
+										{
+											"value": "subWriteOk",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeDrop",
+									"args": [
+										{
+											"value": "writeDrop",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeError",
+									"args": [
+										{
+											"value": "writeError",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeOk",
+									"args": [
+										{
+											"value": "writeOk",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeTimeout",
+									"args": [
+										{
+											"value": "writeTimeout",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/8e6d041a-e536-43df-977b-db01543b171c"
+				}
+			},
+			{
+				"i": "0df47af4-bb0e-4c6e-9c9e-34b4279d0613",
+				"x": 0,
+				"y": 12,
+				"w": 9,
+				"h": 3,
+				"name": "Shard",
+				"queries": [
+					{
+						"query": "SELECT mean(\"diskBytes\") AS \"mean_diskBytes\", mean(\"seriesCreate\") AS \"mean_seriesCreate\", mean(\"writeBytes\") AS \"mean_writeBytes\", mean(\"writePointsDropped\") AS \"mean_writePointsDropped\", mean(\"fieldsCreate\") AS \"mean_fieldsCreate\", mean(\"writePointsErr\") AS \"mean_writePointsErr\", mean(\"writePointsOk\") AS \"mean_writePointsOk\", mean(\"writeReq\") AS \"mean_writeReq\", mean(\"writeReqErr\") AS \"mean_writeReqErr\", mean(\"writeReqOk\") AS \"mean_writeReqOk\" FROM \"_internal\".\"monitor\".\"shard\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "shard",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_diskBytes",
+									"args": [
+										{
+											"value": "diskBytes",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_seriesCreate",
+									"args": [
+										{
+											"value": "seriesCreate",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeBytes",
+									"args": [
+										{
+											"value": "writeBytes",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writePointsDropped",
+									"args": [
+										{
+											"value": "writePointsDropped",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_fieldsCreate",
+									"args": [
+										{
+											"value": "fieldsCreate",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writePointsErr",
+									"args": [
+										{
+											"value": "writePointsErr",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writePointsOk",
+									"args": [
+										{
+											"value": "writePointsOk",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReq",
+									"args": [
+										{
+											"value": "writeReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReqErr",
+									"args": [
+										{
+											"value": "writeReqErr",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReqOk",
+									"args": [
+										{
+											"value": "writeReqOk",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/0df47af4-bb0e-4c6e-9c9e-34b4279d0613"
+				}
+			},
+			{
+				"i": "f9cfe588-b96f-4b59-a64c-1d2c72b7dd70",
+				"x": 0,
+				"y": 3,
+				"w": 9,
+				"h": 3,
+				"name": "Httpd_2",
+				"queries": [
+					{
+						"query": "SELECT mean(\"queryReq\") AS \"mean_queryReq\", mean(\"queryReqDurationNs\") AS \"mean_queryReqDurationNs\", mean(\"queryRespBytes\") AS \"mean_queryRespBytes\", mean(\"recoveredPanics\") AS \"mean_recoveredPanics\", mean(\"req\") AS \"mean_req\", mean(\"reqActive\") AS \"mean_reqActive\", mean(\"reqDurationNs\") AS \"mean_reqDurationNs\", mean(\"serverError\") AS \"mean_serverError\", mean(\"statusReq\") AS \"mean_statusReq\", mean(\"writeReq\") AS \"mean_writeReq\", mean(\"writeReqActive\") AS \"mean_writeReqActive\", mean(\"writeReqBytes\") AS \"mean_writeReqBytes\", mean(\"writeReqDurationNs\") AS \"mean_writeReqDurationNs\" FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "httpd",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queryReq",
+									"args": [
+										{
+											"value": "queryReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queryReqDurationNs",
+									"args": [
+										{
+											"value": "queryReqDurationNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queryRespBytes",
+									"args": [
+										{
+											"value": "queryRespBytes",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_recoveredPanics",
+									"args": [
+										{
+											"value": "recoveredPanics",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_req",
+									"args": [
+										{
+											"value": "req",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_reqActive",
+									"args": [
+										{
+											"value": "reqActive",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_reqDurationNs",
+									"args": [
+										{
+											"value": "reqDurationNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_serverError",
+									"args": [
+										{
+											"value": "serverError",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_statusReq",
+									"args": [
+										{
+											"value": "statusReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReq",
+									"args": [
+										{
+											"value": "writeReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReqActive",
+									"args": [
+										{
+											"value": "writeReqActive",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReqBytes",
+									"args": [
+										{
+											"value": "writeReqBytes",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_writeReqDurationNs",
+									"args": [
+										{
+											"value": "writeReqDurationNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/f9cfe588-b96f-4b59-a64c-1d2c72b7dd70"
+				}
+			},
+			{
+				"i": "43a4434d-a702-4554-b380-bf7a2777b2ea",
+				"x": 0,
+				"y": 0,
+				"w": 9,
+				"h": 3,
+				"name": "Httpd_1",
+				"queries": [
+					{
+						"query": "SELECT mean(\"authFail\") AS \"mean_authFail\", mean(\"clientError\") AS \"mean_clientError\", mean(\"fluxQueryReq\") AS \"mean_fluxQueryReq\", mean(\"fluxQueryReqDurationNs\") AS \"mean_fluxQueryReqDurationNs\", mean(\"pingReq\") AS \"mean_pingReq\", mean(\"pointsWrittenDropped\") AS \"mean_pointsWrittenDropped\", mean(\"pointsWrittenFail\") AS \"mean_pointsWrittenFail\", mean(\"pointsWrittenOK\") AS \"mean_pointsWrittenOK\", mean(\"promReadReq\") AS \"mean_promReadReq\", mean(\"promWriteReq\") AS \"mean_promWriteReq\" FROM \"_internal\".\"monitor\".\"httpd\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: AND \"bind\"=':8086' AND \"hostname\"='e48509874d89' GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "httpd",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_authFail",
+									"args": [
+										{
+											"value": "authFail",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_clientError",
+									"args": [
+										{
+											"value": "clientError",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_fluxQueryReq",
+									"args": [
+										{
+											"value": "fluxQueryReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_fluxQueryReqDurationNs",
+									"args": [
+										{
+											"value": "fluxQueryReqDurationNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pingReq",
+									"args": [
+										{
+											"value": "pingReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pointsWrittenDropped",
+									"args": [
+										{
+											"value": "pointsWrittenDropped",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pointsWrittenFail",
+									"args": [
+										{
+											"value": "pointsWrittenFail",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_pointsWrittenOK",
+									"args": [
+										{
+											"value": "pointsWrittenOK",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_promReadReq",
+									"args": [
+										{
+											"value": "promReadReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_promWriteReq",
+									"args": [
+										{
+											"value": "promWriteReq",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {
+								"bind": [
+									":8086"
+								],
+								"hostname": [
+									"e48509874d89"
+								]
+							},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": true,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/43a4434d-a702-4554-b380-bf7a2777b2ea"
+				}
+			},
+			{
+				"i": "d58a408d-a694-4f60-a0a2-bd6c50b48c89",
+				"x": 9,
+				"y": 0,
+				"w": 3,
+				"h": 6,
+				"name": "db_log",
+				"queries": [
+					{
+						"query": "SELECT mean(\"numMeasurements\") AS \"mean_numMeasurements\", mean(\"numSeries\") AS \"mean_numSeries\" FROM \"_internal\".\"monitor\".\"database\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: AND \"database\"='_internal' AND \"hostname\"='e48509874d89' GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "database",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_numMeasurements",
+									"args": [
+										{
+											"value": "numMeasurements",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_numSeries",
+									"args": [
+										{
+											"value": "numSeries",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {
+								"database": [
+									"_internal"
+								],
+								"hostname": [
+									"e48509874d89"
+								]
+							},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": true,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "/chronograf/v1/sources/2",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "f79f4889-30bf-4d2b-b85b-2be883c48672",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "11b8e523-04ff-4a07-9357-a05fb371805c",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "d210d516-4f74-428f-8317-043d4249aeef",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/d58a408d-a694-4f60-a0a2-bd6c50b48c89"
+				}
+			},
+			{
+				"i": "e69c3d8c-b50d-490c-9b4b-17c1570b50da",
+				"x": 0,
+				"y": 6,
+				"w": 9,
+				"h": 3,
+				"name": "query_log",
+				"queries": [
+					{
+						"query": "SELECT mean(\"queriesActive\") AS \"mean_queriesActive\", mean(\"queriesExecuted\") AS \"mean_queriesExecuted\", mean(\"queriesFinished\") AS \"mean_queriesFinished\", mean(\"queryDurationNs\") AS \"mean_queryDurationNs\", mean(\"recoveredPanics\") AS \"mean_recoveredPanics\" FROM \"_internal\".\"monitor\".\"queryExecutor\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "queryExecutor",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queriesActive",
+									"args": [
+										{
+											"value": "queriesActive",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queriesExecuted",
+									"args": [
+										{
+											"value": "queriesExecuted",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queriesFinished",
+									"args": [
+										{
+											"value": "queriesFinished",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_queryDurationNs",
+									"args": [
+										{
+											"value": "queryDurationNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_recoveredPanics",
+									"args": [
+										{
+											"value": "recoveredPanics",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/e69c3d8c-b50d-490c-9b4b-17c1570b50da"
+				}
+			},
+			{
+				"i": "55b23091-94b3-4a1d-82ed-9bbc3c1f778b",
+				"x": 0,
+				"y": 9,
+				"w": 9,
+				"h": 3,
+				"name": "runtime_log",
+				"queries": [
+					{
+						"query": "SELECT mean(\"Alloc\") AS \"mean_Alloc\", mean(\"Frees\") AS \"mean_Frees\", mean(\"HeapAlloc\") AS \"mean_HeapAlloc\", mean(\"HeapIdle\") AS \"mean_HeapIdle\", mean(\"HeapInUse\") AS \"mean_HeapInUse\", mean(\"HeapObjects\") AS \"mean_HeapObjects\", mean(\"HeapReleased\") AS \"mean_HeapReleased\", mean(\"HeapSys\") AS \"mean_HeapSys\", mean(\"Lookups\") AS \"mean_Lookups\", mean(\"Mallocs\") AS \"mean_Mallocs\", mean(\"NumGC\") AS \"mean_NumGC\", mean(\"NumGoroutine\") AS \"mean_NumGoroutine\", mean(\"PauseTotalNs\") AS \"mean_PauseTotalNs\", mean(\"Sys\") AS \"mean_Sys\" FROM \"_internal\".\"monitor\".\"runtime\" WHERE time > :dashboardTime: AND time < :upperDashboardTime: GROUP BY time(:interval:) FILL(null)",
+						"queryConfig": {
+							"database": "_internal",
+							"measurement": "runtime",
+							"retentionPolicy": "monitor",
+							"fields": [
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_Alloc",
+									"args": [
+										{
+											"value": "Alloc",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_Frees",
+									"args": [
+										{
+											"value": "Frees",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapAlloc",
+									"args": [
+										{
+											"value": "HeapAlloc",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapIdle",
+									"args": [
+										{
+											"value": "HeapIdle",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapInUse",
+									"args": [
+										{
+											"value": "HeapInUse",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapObjects",
+									"args": [
+										{
+											"value": "HeapObjects",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapReleased",
+									"args": [
+										{
+											"value": "HeapReleased",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_HeapSys",
+									"args": [
+										{
+											"value": "HeapSys",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_Lookups",
+									"args": [
+										{
+											"value": "Lookups",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_Mallocs",
+									"args": [
+										{
+											"value": "Mallocs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_NumGC",
+									"args": [
+										{
+											"value": "NumGC",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_NumGoroutine",
+									"args": [
+										{
+											"value": "NumGoroutine",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_PauseTotalNs",
+									"args": [
+										{
+											"value": "PauseTotalNs",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								},
+								{
+									"value": "mean",
+									"type": "func",
+									"alias": "mean_Sys",
+									"args": [
+										{
+											"value": "Sys",
+											"type": "field",
+											"alias": ""
+										}
+									]
+								}
+							],
+							"tags": {},
+							"groupBy": {
+								"time": "auto",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"fill": "null",
+							"rawText": null,
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "influxql"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "99b9fea6-803b-4280-bf7d-c635212fc82b",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "526a7c60-c750-4272-b7ec-53dbe08311fb",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "ace06856-45dc-4d09-88db-dd5aaaec4db2",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/1/cells/55b23091-94b3-4a1d-82ed-9bbc3c1f778b"
+				}
+			}
+		],
+		"templates": [],
+		"name": "Swarm-auto-ticky-stack",
+		"organization": "default",
+		"links": {
+			"self": "/chronograf/v1/dashboards/1",
+			"cells": "/chronograf/v1/dashboards/1/cells",
+			"templates": "/chronograf/v1/dashboards/1/templates"
+		}
+	}
+}

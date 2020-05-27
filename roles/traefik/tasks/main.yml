@@ -1,0 +1,5 @@
+---
+
+# Docker-swarm
+- name: "Docker Traefik"
+  include: "traefik.yml"

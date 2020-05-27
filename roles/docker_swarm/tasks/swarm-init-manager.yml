@@ -1,0 +1,53 @@
+---
+
+
+########
+#####initialisation du manager 
+########
+
+
+- name: cluster | manager |Initialize Docker Swarm
+  shell: >
+        docker swarm init
+  run_once: true
+  ignore_errors: true
+  tags: swarm
+
+
+- name: cluster | manager | Check if Swarm is Already
+  shell: docker node ls
+  register: swarm_status
+  ignore_errors: true
+  tags: swarm
+
+
+########
+#####Set de l'inventory_hostname 
+########
+
+
+###CaptureTheToken for join worker to manager
+- name: cluster | manager | Get the worker join-token
+  shell: docker swarm join-token --quiet worker
+  register: docker_swarm_token
+  tags: swarm
+
+
+- name: Add nodes
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ docker_swarm_addr }}"
+    join_token: "{{ docker_swarm_token.stdout }}"
+    remote_addrs: "{{ docker_swarm_addr }}:{{ docker_swarm_port }}"
+  delegate_to: "{{ addr_worker_1 }}"
+
+
+
+- name: Add nodes
+  docker_swarm:
+    state: join
+    advertise_addr: "{{ docker_swarm_addr }}"
+    join_token: "{{ docker_swarm_token.stdout }}"
+    remote_addrs: "{{ docker_swarm_addr }}:{{ docker_swarm_port }}"
+  delegate_to: "{{ addr_worker_2 }}"
+    
